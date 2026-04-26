@@ -9,18 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-
-    - name: Configure CMake
-      run: cmake -B build 
-  -DBUILD_TESTS=ON
- - name: Build
+    
+ - name: Configure CMake
+      run: cmake -B build -DBUILD_TESTS=ON
+    
+    - name: Build
       run: cmake --build build
-
+    
     - name: Run tests
       run: |
         cd build
