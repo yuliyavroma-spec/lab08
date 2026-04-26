@@ -231,7 +231,6 @@ bool Transaction::IsRolledBack() const {
 }
 EOF
 ```
-
     * Используйте mock-объекты.
 
 ```bash 
