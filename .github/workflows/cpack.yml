@@ -1,76 +1,30 @@
-name: CPack Package Build
+name: CPack
 
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
   workflow_dispatch:
 
 jobs:
-  build-packages:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        
-    runs-on: ${{ matrix.os }}
-    
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    
-    - name: Install dependencies (Ubuntu)
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y rpm
-    
-    - name: Configure CMake
-      run: |
-        cmake -H. -B build -DCMAKE_BUILD_TYPE=Release
- - name: Build
-      run: |
-        cmake --build build --config Release
-    
-    - name: Package (Ubuntu - DEB and RPM)
-      if: runner.os == 'Linux'
-      run: |
-        cd build
-        cmake -G "DEB" -DCPACK_GENERATOR="DEB" ..
-        cmake --build . --target package
-        cmake -G "RPM" -DCPACK_GENERATOR="RPM" ..
-        cmake --build . --target package
-    
-    - name: Package (macOS - DragNDrop)
-      if: runner.os == 'macOS'
-      run: |
-        cd build
-        cmake -G "DragNDrop" -DCPACK_GENERATOR="DragNDrop" ..
-        cmake --build . --target package
-    
-    - name: Package (Windows - WIX)
-      if: runner.os == 'Windows'
-      run: |
-        cd build
-        cmake -G "WIX" -DCPACK_GENERATOR="WIX" ..
-        cmake --build . --target package --config Release
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: packages-${{ matrix.os }}
-        path: build/*.deb
-        if-no-files-found: warn
-    
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: |
-          build/*.deb
-          build/*.rpm
-          build/*.dmg
-          build/*.msi
-          build/*.tar.gz
-          build/*.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      
+      - name: Configure
+        run: cmake -H. -B build
+      
+      - name: Build
+        run: cmake --build build
+ - name: Package
+        run: |
+          cd build
+          cmake -G "TGZ" .
+          cmake --build . --target package
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: build/*.tar.gz
