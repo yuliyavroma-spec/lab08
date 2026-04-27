@@ -57,23 +57,33 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yulia/yuliyavroma-spec/workspace/projects/lab05
+CMAKE_SOURCE_DIR = /home/yulia/yuliyavroma-spec/workspace/projects/lab06
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yulia/yuliyavroma-spec/workspace/projects/lab05/_build
+CMAKE_BINARY_DIR = /home/yulia/yuliyavroma-spec/workspace/projects/lab06/_build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
+	/usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/yulia/yuliyavroma-spec/workspace/projects/lab06/_build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -97,7 +107,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -142,9 +152,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yulia/yuliyavroma-spec/workspace/projects/lab05/_build/CMakeFiles /home/yulia/yuliyavroma-spec/workspace/projects/lab05/_build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yulia/yuliyavroma-spec/workspace/projects/lab06/_build/CMakeFiles /home/yulia/yuliyavroma-spec/workspace/projects/lab06/_build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yulia/yuliyavroma-spec/workspace/projects/lab05/_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yulia/yuliyavroma-spec/workspace/projects/lab06/_build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -172,130 +182,56 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lab05
+# Target rules for targets named formatter
 
 # Build rule for target.
-lab05: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lab05
-.PHONY : lab05
+formatter: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 formatter
+.PHONY : formatter
 
 # fast build rule for target.
-lab05/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab05.dir/build.make CMakeFiles/lab05.dir/build
-.PHONY : lab05/fast
+formatter/fast:
+	$(MAKE) $(MAKESILENT) -f formatter_lib/CMakeFiles/formatter.dir/build.make formatter_lib/CMakeFiles/formatter.dir/build
+.PHONY : formatter/fast
 
 #=============================================================================
-# Target rules for targets named check
+# Target rules for targets named formatter_ex
 
 # Build rule for target.
-check: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 check
-.PHONY : check
+formatter_ex: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 formatter_ex
+.PHONY : formatter_ex
 
 # fast build rule for target.
-check/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/check.dir/build.make CMakeFiles/check.dir/build
-.PHONY : check/fast
+formatter_ex/fast:
+	$(MAKE) $(MAKESILENT) -f formatter_ex/CMakeFiles/formatter_ex.dir/build.make formatter_ex/CMakeFiles/formatter_ex.dir/build
+.PHONY : formatter_ex/fast
 
 #=============================================================================
-# Target rules for targets named gmock
+# Target rules for targets named solver_lib
 
 # Build rule for target.
-gmock: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock
-.PHONY : gmock
+solver_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 solver_lib
+.PHONY : solver_lib
 
 # fast build rule for target.
-gmock/fast:
-	$(MAKE) $(MAKESILENT) -f third-party/gtest/googlemock/CMakeFiles/gmock.dir/build.make third-party/gtest/googlemock/CMakeFiles/gmock.dir/build
-.PHONY : gmock/fast
+solver_lib/fast:
+	$(MAKE) $(MAKESILENT) -f solver_lib/CMakeFiles/solver_lib.dir/build.make solver_lib/CMakeFiles/solver_lib.dir/build
+.PHONY : solver_lib/fast
 
 #=============================================================================
-# Target rules for targets named gmock_main
+# Target rules for targets named solver
 
 # Build rule for target.
-gmock_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock_main
-.PHONY : gmock_main
+solver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 solver
+.PHONY : solver
 
 # fast build rule for target.
-gmock_main/fast:
-	$(MAKE) $(MAKESILENT) -f third-party/gtest/googlemock/CMakeFiles/gmock_main.dir/build.make third-party/gtest/googlemock/CMakeFiles/gmock_main.dir/build
-.PHONY : gmock_main/fast
-
-#=============================================================================
-# Target rules for targets named gtest
-
-# Build rule for target.
-gtest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
-.PHONY : gtest
-
-# fast build rule for target.
-gtest/fast:
-	$(MAKE) $(MAKESILENT) -f third-party/gtest/googletest/CMakeFiles/gtest.dir/build.make third-party/gtest/googletest/CMakeFiles/gtest.dir/build
-.PHONY : gtest/fast
-
-#=============================================================================
-# Target rules for targets named gtest_main
-
-# Build rule for target.
-gtest_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
-.PHONY : gtest_main
-
-# fast build rule for target.
-gtest_main/fast:
-	$(MAKE) $(MAKESILENT) -f third-party/gtest/googletest/CMakeFiles/gtest_main.dir/build.make third-party/gtest/googletest/CMakeFiles/gtest_main.dir/build
-.PHONY : gtest_main/fast
-
-main.o: main.cpp.o
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab05.dir/build.make CMakeFiles/lab05.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab05.dir/build.make CMakeFiles/lab05.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab05.dir/build.make CMakeFiles/lab05.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-tests/test1.o: tests/test1.cpp.o
-.PHONY : tests/test1.o
-
-# target to build an object file
-tests/test1.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/check.dir/build.make CMakeFiles/check.dir/tests/test1.cpp.o
-.PHONY : tests/test1.cpp.o
-
-tests/test1.i: tests/test1.cpp.i
-.PHONY : tests/test1.i
-
-# target to preprocess a source file
-tests/test1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/check.dir/build.make CMakeFiles/check.dir/tests/test1.cpp.i
-.PHONY : tests/test1.cpp.i
-
-tests/test1.s: tests/test1.cpp.s
-.PHONY : tests/test1.s
-
-# target to generate assembly for a file
-tests/test1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/check.dir/build.make CMakeFiles/check.dir/tests/test1.cpp.s
-.PHONY : tests/test1.cpp.s
+solver/fast:
+	$(MAKE) $(MAKESILENT) -f solver/CMakeFiles/solver.dir/build.make solver/CMakeFiles/solver.dir/build
+.PHONY : solver/fast
 
 # Help Target
 help:
@@ -308,20 +244,13 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... package"
+	@echo "... package_source"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... check"
-	@echo "... gmock"
-	@echo "... gmock_main"
-	@echo "... gtest"
-	@echo "... gtest_main"
-	@echo "... lab05"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... tests/test1.o"
-	@echo "... tests/test1.i"
-	@echo "... tests/test1.s"
+	@echo "... formatter"
+	@echo "... formatter_ex"
+	@echo "... solver"
+	@echo "... solver_lib"
 .PHONY : help
 
 
