@@ -144,17 +144,6 @@ $ gsed -i 's/lab07/lab08/g' README.md
 ```
 
 ```sh
-$ vim .travis.yml
-/lang<CR>o
-services:
-- docker<ESC>
-jVGdo
-script:
-- docker build -t logger .<ESC>
-:wq
-```
-
-```sh
 $ git add Dockerfile CMakeLists.txt main.cpp README.md
 $ git commit -m "Successful Docker build"
 [master e4fd403] Successful Docker build
