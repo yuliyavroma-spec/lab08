@@ -431,3 +431,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 EOF
 ```
+```sh
+$ git tag v0.1.0.0
+$ git push origin master --tags
+```
